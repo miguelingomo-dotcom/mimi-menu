@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f4f0">
+<meta name="color-scheme" content="light only">
+<title>M.I.M.I MENÚ</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap');
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0ede8;--surface3:#e8e4de;
+  --border:#ddd9d0;--text:#1a1a24;--muted:#7a7a8a;--muted2:#c8c4bc;
+  --accent:#6b5ef0;--green:#16a34a;--red:#dc2626;--orange:#ea580c;
+  --accent-bg:#1a1a24;--accent-text:#f0f0f8;
+  --al:rgba(107,94,240,.1);--am:rgba(107,94,240,.2);
+  color-scheme:light only;
+}
+html,body,*{color-scheme:light only!important;box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+input,select,button,textarea{font-family:'DM Sans',-apple-system,sans-serif;}
+.app{max-width:430px;margin:0 auto;padding-bottom:88px;min-height:100vh;}
+.section{display:none;}.section.active{display:block;}
+
+.onboarding{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;}
+.ob-box{background:var(--surface);border-radius:28px;padding:36px 24px;border:1px solid var(--border);width:100%;max-width:380px;text-align:center;}
+.ob-logo{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:4px;color:var(--accent);line-height:1;margin-bottom:4px;}
+.ob-ver{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.ob-sub{font-size:14px;color:var(--muted);margin-bottom:28px;}
+.ob-members{display:flex;flex-direction:column;gap:10px;}
+.ob-btn{width:100%;padding:16px 20px;border:2px solid var(--border);border-radius:18px;background:var(--surface2);font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;color:var(--text);}
+.ob-btn:active{transform:scale(.97);}
+.ob-av{width:44px;height:44px;border-radius:50%;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+
+.header{padding:48px 20px 16px;}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:2px;line-height:1;}
+.header p{font-size:13px;color:var(--muted);margin-top:2px;}
+
+.who-badge{margin:0 20px 14px;background:var(--al);border:1.5px solid var(--am);border-radius:16px;padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;}
+.who-name{font-size:14px;font-weight:700;color:var(--accent);}
+.who-sub{font-size:11px;color:var(--muted);}
+.who-change{margin-left:auto;font-size:12px;color:var(--accent);font-weight:600;}
+
+.hero-day{margin:0 20px 14px;background:linear-gradient(135deg,rgba(107,94,240,.12),rgba(22,163,74,.06));border:1px solid rgba(107,94,240,.25);border-radius:24px;padding:20px;}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.hero-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
+.hero-dia{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;line-height:1;color:var(--accent);}
+.hero-fecha{font-size:13px;color:var(--muted);margin-top:2px;}
+.badge{padding:5px 12px;border-radius:40px;font-size:12px;font-weight:600;}
+.badge-open{background:rgba(22,163,74,.15);color:var(--green);}
+.badge-closed{background:rgba(220,38,38,.1);color:var(--red);}
+.badge-soon{background:var(--al);color:var(--accent);}
+
+.tomorrow-banner{margin:0 20px 10px;background:linear-gradient(135deg,rgba(22,163,74,.1),rgba(107,94,240,.08));border:1.5px solid rgba(22,163,74,.3);border-radius:16px;padding:12px 16px;display:flex;align-items:center;gap:12px;}
+.tb-emoji{font-size:22px;}
+.tb-label{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.tb-name{font-size:14px;font-weight:700;}
+
+.voters-row{margin:2px 20px 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.voter-chip{display:flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--surface2);border:1px solid var(--border);color:var(--muted);}
+.voter-chip.voted{background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.3);color:var(--green);}
+
+.vst{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;padding:0 20px;margin-bottom:8px;margin-top:4px;display:flex;align-items:center;justify-content:space-between;}
+.assign-btn{font-size:11px;font-weight:600;color:var(--accent);background:var(--al);border:none;padding:4px 10px;border-radius:20px;cursor:pointer;}
+
+.vote-card{margin:0 20px 8px;background:var(--surface);border-radius:18px;padding:13px 16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;position:relative;}
+.vote-card:active{transform:scale(.98);}
+.vote-card.winner{border-color:var(--accent);background:var(--al);}
+.vc-emoji{width:44px;height:44px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid var(--border);}
+.vote-card.winner .vc-emoji{background:var(--al);border-color:var(--am);}
+.vc-info{flex:1;min-width:0;}
+.vc-name{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.vc-meta{font-size:11px;color:var(--muted);margin-top:1px;}
+.vc-bar{height:4px;background:var(--surface2);border-radius:100px;margin-top:6px;overflow:hidden;}
+.vc-fill{height:100%;border-radius:100px;background:var(--accent);transition:width .4s;}
+.vote-btn{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);background:none;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--muted);flex-shrink:0;}
+.vote-btn.voted{background:var(--accent);border-color:var(--accent);color:#fff;}
+.crown{position:absolute;top:-8px;right:12px;font-size:16px;}
+
+.fixed-card{margin:0 20px 8px;background:var(--surface);border-radius:18px;padding:16px 18px;border:2px solid var(--am);display:flex;align-items:center;gap:14px;}
+.fixed-emoji{width:46px;height:46px;border-radius:12px;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.fixed-label{font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.fixed-name{font-size:15px;font-weight:700;}
+.fixed-undo{font-size:11px;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;cursor:pointer;margin-top:4px;display:inline-block;}
+.skip-card{margin:0 20px 8px;background:var(--surface2);border-radius:18px;padding:14px 18px;border:1px solid var(--border);display:flex;align-items:center;gap:14px;opacity:.7;}
+
+.hist-toggle{margin:0 20px 14px;display:flex;background:var(--surface2);border-radius:14px;padding:3px;gap:3px;border:1px solid var(--border);}
+.ht-btn{flex:1;padding:8px;border:none;border-radius:11px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--muted);}
+.ht-btn.active{background:var(--surface);color:var(--text);}
+
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin:0 20px 14px;}
+.week-label{font-size:14px;font-weight:600;}
+.week-btn{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--border);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.wtw{margin:0 20px 14px;border-radius:16px;overflow:hidden;border:1px solid var(--border);}
+.wt{width:100%;border-collapse:collapse;background:var(--surface);}
+.wt th{padding:9px 6px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;background:var(--surface2);border-bottom:1px solid var(--border);text-align:center;}
+.wt th:first-child{text-align:left;padding-left:12px;width:44px;}
+.wt td{padding:0;border-bottom:1px solid var(--border);vertical-align:top;}
+.wt tr:last-child td{border-bottom:none;}
+.wt td:not(:first-child),.wt th:not(:first-child){border-left:1px solid var(--border);}
+.dc{padding:8px 4px 8px 10px;}
+.dn{font-size:11px;font-weight:700;}
+.dnum{font-size:10px;color:var(--muted);}
+.dhoy .dn,.dhoy .dnum{color:var(--accent);}
+.dhoy-lbl{font-size:8px;color:var(--accent);font-weight:700;text-transform:uppercase;}
+.mc{padding:6px 8px;min-height:46px;display:flex;flex-direction:column;justify-content:center;gap:1px;cursor:pointer;}
+.mc:hover{background:rgba(107,94,240,.04);}
+.mc-em{font-size:12px;}
+.mc-name{font-size:11px;font-weight:600;line-height:1.3;}
+.mc-tag{font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;display:inline-block;margin-top:2px;}
+.cf{background:rgba(107,94,240,.04);}.cf .mc-name{color:var(--accent);}.cf .mc-tag{background:var(--al);color:var(--accent);}
+.cv .mc-tag{background:rgba(22,163,74,.12);color:var(--green);}
+.ca .mc-tag{background:rgba(234,88,12,.12);color:var(--orange);}
+.ce .mc-name{color:var(--muted2);font-weight:400;font-style:italic;font-size:10px;}
+.cs{background:var(--surface2);}.cs .mc-name{color:var(--muted);font-size:10px;}
+.tr-hoy td{background:rgba(107,94,240,.02);}
+
+.legend{display:flex;gap:12px;margin:0 20px 8px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+.plan-tip{padding:4px 20px 14px;font-size:12px;color:var(--muted);text-align:center;}
+
+.hist-item{margin:0 20px 6px;background:var(--surface);border-radius:14px;padding:13px 16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.hi-day{font-size:11px;font-weight:700;color:var(--accent);width:34px;flex-shrink:0;text-align:center;}
+.hi-num{font-size:10px;color:var(--muted);text-align:center;}
+.hi-meals{flex:1;}
+.hi-row{display:flex;align-items:center;gap:6px;padding:2px 0;}
+.hi-tipo{font-size:10px;color:var(--muted);width:38px;flex-shrink:0;}
+.hi-name{font-size:13px;font-weight:500;}
+.hi-div{height:1px;background:var(--border);margin:3px 0;}
+
+.stat-filter{margin:0 20px 12px;display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:3px;border:1px solid var(--border);}
+.sf-btn{flex:1;padding:7px;border:none;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--muted);}
+.sf-btn.active{background:var(--surface);color:var(--text);}
+.stat-card{margin:0 20px 8px;background:var(--surface);border-radius:16px;padding:12px 14px;border:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.st-rank{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--muted2);width:26px;flex-shrink:0;text-align:center;}
+.st-rank.gold{color:#f59e0b;}.st-rank.silver{color:#9ca3af;}.st-rank.bronze{color:#b45309;}
+.st-emoji{font-size:18px;width:34px;height:34px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st-info{flex:1;min-width:0;}
+.st-name{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.st-tipo{font-size:10px;color:var(--muted);margin-top:1px;}
+.st-bar{height:4px;background:var(--surface2);border-radius:100px;margin-top:5px;overflow:hidden;}
+.st-bar-fill{height:100%;border-radius:100px;background:var(--accent);transition:width .5s;}
+.st-count{font-size:14px;font-weight:700;color:var(--accent);flex-shrink:0;}
+
+.bcat{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;padding:0 20px;margin:14px 0 8px;}
+.bank-item{margin:0 20px 6px;background:var(--surface);border-radius:14px;padding:11px 14px;border:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.bi-em{font-size:20px;width:30px;text-align:center;flex-shrink:0;}
+.bi-name{flex:1;font-size:13px;font-weight:500;}
+.bi-del{background:none;border:none;color:var(--muted2);font-size:15px;cursor:pointer;padding:4px 6px;}
+.bi-del:active{color:var(--red);}
+.add-form{margin:0 20px 14px;background:var(--surface);border-radius:20px;padding:18px;border:1px solid var(--border);}
+.af-title{font-size:13px;font-weight:700;margin-bottom:12px;}
+.field{margin-bottom:10px;}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.field input,.field select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);font-size:14px;font-weight:500;outline:none;-webkit-appearance:none;transition:border-color .2s;}
+.field input:focus,.field select:focus{border-color:var(--accent);}
+
+.ci-wrap{margin:0 20px 14px;display:flex;gap:8px;}
+.ci{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 16px;color:var(--text);font-size:14px;font-weight:500;outline:none;transition:border-color .2s;}
+.ci:focus{border-color:var(--accent);}
+.ci-add{width:44px;height:44px;border-radius:14px;background:var(--accent);border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.csec{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;padding:0 20px;margin:8px 0 8px;}
+.compra-item{margin:0 20px 6px;background:var(--surface);border-radius:14px;padding:12px 16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;cursor:pointer;}
+.compra-item.done{opacity:.5;background:var(--surface2);}
+.ccheck{width:24px;height:24px;border-radius:8px;border:2px solid var(--border);background:none;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s;}
+.compra-item.done .ccheck{background:var(--green);border-color:var(--green);color:#fff;}
+.cname{flex:1;font-size:14px;font-weight:500;}
+.compra-item.done .cname{text-decoration:line-through;color:var(--muted);}
+.cwho{font-size:11px;color:var(--muted);flex-shrink:0;}
+.hp-item{margin:0 20px 6px;background:var(--surface);border-radius:12px;padding:10px 14px;border:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer;}
+.hp-item:active{background:var(--surface2);}
+.hp-name{flex:1;font-size:13px;font-weight:500;}
+.hp-add{font-size:18px;color:var(--accent);}
+
+.cfg-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.cfg-row:last-child{border-bottom:none;}
+.cfg-icon{width:36px;height:36px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.cfg-title{font-size:14px;font-weight:600;}
+.cfg-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-ov.show{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border-radius:24px 24px 0 0;padding:24px 20px 40px;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s;max-height:80vh;overflow-y:auto;}
+.modal-ov.show .modal{transform:translateY(0);}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;}
+.modal-x{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.msearch{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);font-size:14px;outline:none;margin-bottom:12px;}
+.msearch:focus{border-color:var(--accent);}
+.m-item{background:var(--surface2);border-radius:14px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;border:1.5px solid var(--border);transition:all .15s;}
+.m-item:active{transform:scale(.98);}
+.m-item-em{font-size:20px;width:32px;text-align:center;}
+.m-item-name{font-size:14px;font-weight:600;flex:1;}
+
+.btn{padding:12px 20px;border:none;border-radius:14px;background:var(--accent-bg);color:var(--accent-text);font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s;width:100%;}
+.btn:active{opacity:.8;}
+.btn.red{background:var(--red);color:#fff;}
+.btn.muted{background:var(--surface2);color:var(--text);}
+.card{margin:0 20px 14px;background:var(--surface);border-radius:20px;padding:20px;border:1px solid var(--border);}
+.card-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;}
+
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 0 8px;cursor:pointer;gap:3px;background:none;border:none;color:var(--muted);transition:color .2s;position:relative;}
+.nav-btn.active{color:var(--accent);}
+.nav-icon{font-size:20px;}
+.nav-lbl{font-size:10px;font-weight:600;letter-spacing:.5px;}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red);position:absolute;top:7px;right:6px;display:none;}
+.nav-btn.has-dot .nav-dot{display:block;}
+
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent-bg);color:var(--accent-text);padding:10px 20px;border-radius:40px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:600;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.ok{background:var(--green);}
+.toast.err{background:var(--red);}
+.empty{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-icon{font-size:40px;margin-bottom:12px;}
+.empty-text{font-size:14px;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div class="onboarding" id="onboarding">
+  <div class="ob-box">
+    <div class="ob-logo">M.I.M.I</div>
+    <div class="ob-ver">Menú · v0.7</div>
+    <div class="ob-sub">¿Quién eres? Tu dispositivo te recordará.</div>
+    <div class="ob-members">
+      <button class="ob-btn" onclick="elegir('Inés','👩')"><div class="ob-av">👩</div><span>Inés</span></button>
+      <button class="ob-btn" onclick="elegir('Inés María','👧')"><div class="ob-av">👧</div><span>Inés María</span></button>
+      <button class="ob-btn" onclick="elegir('Miguel','👨')"><div class="ob-av">👨</div><span>Miguel</span></button>
+      <button class="ob-btn" onclick="elegir('Miguel Jr','👦')"><div class="ob-av">👦</div><span>Miguel Jr</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="app" style="display:none;">
+
+<div class="section active" id="sec-hoy">
+  <div class="header"><h1>M.I.M.I</h1><p id="hoy-sub"></p></div>
+  <div class="who-badge" onclick="cambiarMiembro()">
+    <span id="who-av" style="font-size:20px;"></span>
+    <div style="flex:1;"><div class="who-name" id="who-name"></div><div class="who-sub">Tu dispositivo · toca para cambiar</div></div>
+    <div class="who-change">Cambiar →</div>
+  </div>
+  <div class="hero-day">
+    <div class="hero-top">
+      <div><div class="hero-label">Hoy es</div><div class="hero-dia" id="dia-nombre"></div><div class="hero-fecha" id="dia-fecha"></div></div>
+      <div class="badge badge-soon" id="estado-badge">...</div>
+    </div>
+  </div>
+  <!-- COMIDA DE HOY (informativo) -->
+  <div class="vst"><span>🍽 Comida de hoy</span></div>
+  <div id="comida-hoy-content"></div>
+  <div style="height:10px;"></div>
+  <!-- CENA DE HOY (votación 19:00-20:00) -->
+  <div class="vst">
+    <span>🌙 Cena de hoy</span>
+    <button class="assign-btn" id="btn-an" onclick="openModal('cena')">+ Asignar directo</button>
+  </div>
+  <div id="voters-cena"></div>
+  <div id="cena-content"></div>
+  <div style="height:10px;"></div>
+  <!-- COMIDA DE MAÑANA (votación 21:00-23:00) -->
+  <div class="vst">
+    <span>🌅 Comida de mañana</span>
+    <button class="assign-btn" id="btn-ac" onclick="openModal('comida')">+ Asignar directo</button>
+  </div>
+  <div id="voters-comida"></div>
+  <div id="comida-content"></div>
+</div>
+
+<div class="section" id="sec-historial">
+  <div class="header"><h1>📅 Semana</h1><p>Menú y planificación</p></div>
+  <div class="hist-toggle">
+    <button class="ht-btn active" id="ht-tabla" onclick="switchHist('tabla')">Tabla</button>
+    <button class="ht-btn" id="ht-lista" onclick="switchHist('lista')">Lista</button>
+    <button class="ht-btn" id="ht-stats" onclick="switchHist('stats')">Estadísticas</button>
+  </div>
+  <div id="hv-tabla">
+    <div class="week-nav">
+      <button class="week-btn" onclick="cambiarSemana(-1)">←</button>
+      <div class="week-label" id="week-label"></div>
+      <button class="week-btn" onclick="cambiarSemana(1)">→</button>
+    </div>
+    <div class="wtw"><table class="wt" id="week-table"></table></div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:var(--am);"></div>Fijo</div>
+      <div class="leg"><div class="leg-dot" style="background:rgba(22,163,74,.4);"></div>Votado</div>
+      <div class="leg"><div class="leg-dot" style="background:rgba(234,88,12,.4);"></div>Asignado</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--border);"></div>Pendiente</div>
+    </div>
+    <div class="plan-tip">💡 Toca una celda pendiente para planificar</div>
+  </div>
+  <div id="hv-lista" style="display:none;"></div>
+  <div id="hv-stats" style="display:none;">
+    <div class="stat-filter">
+      <button class="sf-btn active" id="sf-todo" onclick="switchStat('todo')">Todo</button>
+      <button class="sf-btn" id="sf-comida" onclick="switchStat('comida')">Comidas</button>
+      <button class="sf-btn" id="sf-cena" onclick="switchStat('cena')">Cenas</button>
+    </div>
+    <div id="stats-content"></div>
+  </div>
+</div>
+
+<div class="section" id="sec-banco">
+  <div class="header"><h1>📖 Banco</h1><p>Platos disponibles</p></div>
+  <div class="add-form">
+    <div class="af-title">➕ Añadir plato</div>
+    <div class="field"><label>Nombre</label><input type="text" id="new-nombre" placeholder="Ej: Berenjenas rellenas"></div>
+    <div class="field"><label>Tipo</label>
+      <select id="new-tipo"><option value="comida">🌞 Comida</option><option value="cena">🌙 Cena</option><option value="ambos">🍽 Ambos</option></select>
+    </div>
+    <div class="field"><label>Emoji</label><input type="text" id="new-emoji" placeholder="🍽" maxlength="2"></div>
+    <button class="btn" onclick="addPlato()">Añadir al banco</button>
+  </div>
+  <div id="banco-content"></div>
+</div>
+
+<div class="section" id="sec-compra">
+  <div class="header"><h1>🛒 Compra</h1><p id="compra-sub">Lista de la compra</p></div>
+  <div class="ci-wrap">
+    <input class="ci" type="text" id="compra-input" placeholder="Añadir producto..." onkeydown="if(event.key==='Enter')addCompra()">
+    <button class="ci-add" onclick="addCompra()">+</button>
+  </div>
+  <div id="compra-lista"></div>
+  <div id="compra-hist-sec" style="display:none;">
+    <div class="csec">🔄 Comprado antes</div>
+    <div id="compra-hist"></div>
+  </div>
+</div>
+
+<div class="section" id="sec-config">
+  <div class="header"><h1>⚙️ Config</h1><p>Ajustes</p></div>
+  <div class="card">
+    <div class="card-title">⏰ Horarios de votación</div>
+    <div class="cfg-row"><div class="cfg-icon">🌞</div><div><div class="cfg-title">Comida</div><div class="cfg-sub">Noche anterior · 21:00 → 23:00</div></div></div>
+    <div class="cfg-row"><div class="cfg-icon">🌙</div><div><div class="cfg-title">Cena</div><div class="cfg-sub">Mismo día · 19:00 → 20:00</div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📌 Días fijos</div>
+    <div class="cfg-row"><div class="cfg-icon">🫘</div><div><div class="cfg-title">Lunes comida — Lentejas</div><div class="cfg-sub">Fijo, sin votación</div></div></div>
+    <div class="cfg-row"><div class="cfg-icon">🍳</div><div><div class="cfg-title">Lunes cena — Tortilla francesa</div><div class="cfg-sub">Fijo, sin votación</div></div></div>
+    <div class="cfg-row"><div class="cfg-icon">🏡</div><div><div class="cfg-title">Sábado comida — Casa abuela</div><div class="cfg-sub">Sin votación</div></div></div>
+    <div class="cfg-row"><div class="cfg-icon">🥗</div><div><div class="cfg-title">Sábado cena — Ensaladilla + Empanadillas</div><div class="cfg-sub">Fijo, sin votación</div></div></div>
+    <div class="cfg-row"><div class="cfg-icon">🍗</div><div><div class="cfg-title">Domingo comida — Asado de pollo</div><div class="cfg-sub">Fijo, sin votación</div></div></div>
+    <div class="cfg-row"><div class="cfg-icon">🍔</div><div><div class="cfg-title">Domingo cena — McDonald's / Toc Burger</div><div class="cfg-sub">Votación entre 2 opciones</div></div></div>
+  </div>
+  <div style="padding:0 20px;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+    <button class="btn red" onclick="if(confirm('¿Borrar votos y asignación de hoy?')){clearHoy();}">🗑 Borrar todo de hoy</button>
+    <button class="btn muted" onclick="if(confirm('¿Resetear banco al original?')){resetBanco();}">↺ Resetear banco de platos</button>
+    <button class="btn muted" onclick="cambiarMiembro()">👤 Cambiar de usuario</button>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSec('hoy')" id="nav-hoy"><span class="nav-icon">🍽</span><span class="nav-lbl">HOY</span><span class="nav-dot"></span></button>
+  <button class="nav-btn" onclick="showSec('historial')" id="nav-historial"><span class="nav-icon">📅</span><span class="nav-lbl">SEMANA</span></button>
+  <button class="nav-btn" onclick="showSec('banco')" id="nav-banco"><span class="nav-icon">📖</span><span class="nav-lbl">BANCO</span></button>
+  <button class="nav-btn" onclick="showSec('compra')" id="nav-compra"><span class="nav-icon">🛒</span><span class="nav-lbl">COMPRA</span><span class="nav-dot"></span></button>
+  <button class="nav-btn" onclick="showSec('config')" id="nav-config"><span class="nav-icon">⚙️</span><span class="nav-lbl">CONFIG</span></button>
+</nav>
+</div>
+
+<!-- MODAL ASIGNAR / PLANIFICAR -->
+<div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-title">Asignar</div>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <input class="msearch" type="text" id="modal-search" placeholder="Buscar plato..." oninput="filterModal()">
+    <div id="modal-items"></div>
+    <div id="modal-extra"></div>
+  </div>
+</div>
+
+<div id="loading-overlay" style="display:none;position:fixed;inset:0;background:rgba(245,244,240,.92);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:16px;"><div style="font-family:Bebas Neue,sans-serif;font-size:36px;letter-spacing:3px;color:#6b5ef0;">M.I.M.I</div><div style="font-size:13px;color:#7a7a8a;">Cargando datos...</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const MEMBERS=[{name:'Inés',emoji:'👩'},{name:'Inés María',emoji:'👧'},{name:'Miguel',emoji:'👨'},{name:'Miguel Jr',emoji:'👦'}];
+const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const DIAS_S=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+let cM='',cE='',offsetSem=0,histView='tabla',statFilter='todo';
+let modalTipo=null,modalMode='assign',cellDate=null,cellTipo=null;
+
+const BANCO_INIT={
+  comida:[
+    {id:'c1',nombre:'Macarrones con atún',emoji:'🍝'},
+    {id:'c2',nombre:'Espaguetis con carne',emoji:'🍝'},
+    {id:'c3',nombre:'Hervido',emoji:'🥕'},
+    {id:'c4',nombre:'Solomillo con patatas',emoji:'🥩'},
+    {id:'c5',nombre:'Pescado al horno',emoji:'🐟'},
+    {id:'c6',nombre:'Carrilleras con puré',emoji:'🍖'},
+    {id:'c7',nombre:'Puré de calabacín',emoji:'🥗'},
+    {id:'c8',nombre:'Cocido casero',emoji:'🍲'},
+    {id:'c9',nombre:'Cocido Comidas Garres',emoji:'🍲'},
+    {id:'c10',nombre:'Consomé Comidas Garres',emoji:'🥣'},
+    {id:'c11',nombre:'Arroz a la cubana',emoji:'🍚'},
+    {id:'c12',nombre:'Pechugas empanadas con patatas',emoji:'🍗'},
+    {id:'c13',nombre:'Pechugas a la plancha con patatas',emoji:'🍗'},
+    {id:'c14',nombre:'Migas',emoji:'🫓'},
+    {id:'c15',nombre:'Huevos fritos con patatas y salchichas',emoji:'🍳'},
+    {id:'c16',nombre:'Sopa de fideos',emoji:'🍜'},
+    {id:'c17',nombre:'Lasaña boloñesa',emoji:'🍅'},
+    {id:'c18',nombre:'Pollo al chilindrón',emoji:'🍗'},
+    {id:'c19',nombre:'Arroz con conejo',emoji:'🍚'},
+    {id:'c20',nombre:'Conejo al ajillo',emoji:'🐇'},
+    {id:'c21',nombre:'Berenjenas rellenas',emoji:'🍆'},
+  ],
+  cena:[
+    {id:'n1',nombre:'Pizza casera o comprada',emoji:'🍕'},
+    {id:'n2',nombre:'Bocadillos',emoji:'🥖'},
+    {id:'n3',nombre:'Ensalada de pasta',emoji:'🥗'},
+    {id:'n4',nombre:'Pechugas de pollo',emoji:'🍗'},
+    {id:'n5',nombre:'Lomo',emoji:'🥩'},
+    {id:'n6',nombre:'Sobras de la comida',emoji:'♻️'},
+    {id:'n7',nombre:'Huevos revueltos con jamón',emoji:'🍳'},
+    {id:'n8',nombre:'Crema de verduras',emoji:'🥣'},
+    {id:'n9',nombre:'Ensaladilla y Empanadillas',emoji:'🥗'},
+    {id:'n10',nombre:'Zarangollo',emoji:'🥚'},
+    {id:'n11',nombre:'Hamburguesas',emoji:'🍔'},
+    {id:'n12',nombre:'Hojaldre de jamón y queso',emoji:'🥐'},
+  ]
+};
+
+const FIJOS={
+  1:{comida:{nombre:'Lentejas',emoji:'🫘',fixed:true},cena:{nombre:'Tortilla francesa',emoji:'🍳',fixed:true}},
+  6:{comida:{nombre:'Casa de la abuela',emoji:'🏡',fixed:true,skip:true},cena:{nombre:'Ensaladilla + Empanadillas',emoji:'🥗',fixed:true}},
+  0:{comida:{nombre:'Asado de pollo',emoji:'🍗',fixed:true},cena:{nombre:"McDonald's / Toc Burger",emoji:'🍔',fixed:true,nota:'2 opciones'}}
+};
+const DOM_CENA=[{id:'dc1',nombre:"McDonald's",emoji:'🍔'},{id:'dc2',nombre:'Toc Burger',emoji:'🍔'}];
+const JUE_COMIDA=[
+  {id:'j1',nombre:'Cocido casero',emoji:'🍲'},
+  {id:'j2',nombre:'Cocido Comidas Garres',emoji:'🍲'},
+  {id:'j3',nombre:'Consomé Comidas Garres',emoji:'🥣'},
+  {id:'j4',nombre:'Paella magra Comidas Garres',emoji:'🥘'},
+];
+
+// ════════════════════════════════════════
+// GOOGLE SHEETS API
+// ════════════════════════════════════════
+const API_URL='https://script.google.com/macros/s/AKfycbx99FnDyjcZ9V5bGhHGEW42kdS7InbYUW0M7R4LHVMuQj3ShWcgvoA6rLJw81TdcR2Z/exec';
+
+// JSONP — evita CORS con Google Apps Script
+function api(params){
+  return new Promise((resolve)=>{
+    const cbName='cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const timeout=setTimeout(()=>{
+      delete window[cbName];
+      document.getElementById('sc_'+cbName)?.remove();
+      console.warn('API timeout:',params.action);
+      resolve({ok:false,error:'timeout'});
+    },12000);
+    window[cbName]=function(data){
+      clearTimeout(timeout);
+      delete window[cbName];
+      document.getElementById('sc_'+cbName)?.remove();
+      resolve(data);
+    };
+    const url=API_URL+'?'+new URLSearchParams({...params,callback:cbName}).toString();
+    const sc=document.createElement('script');
+    sc.id='sc_'+cbName;
+    sc.src=url;
+    sc.onerror=()=>{
+      clearTimeout(timeout);
+      delete window[cbName];
+      sc.remove();
+      console.error('API script error:',params.action);
+      resolve({ok:false,error:'script error'});
+    };
+    document.head.appendChild(sc);
+  });
+}
+
+// Cache local — respuesta inmediata + sincronización en background
+const C={votos:{},hist:[],asig:{},banco:null,compra:{lista:[],historial:[]}};
+let lastAction=0; // timestamp de última acción del usuario
+function markAction(){ lastAction=Date.now(); }
+function recentAction(){ return Date.now()-lastAction < 30000; } // 30 segundos de gracia
+
+// Miembro: siempre local (es del dispositivo)
+const getMiembro=()=>{try{const v=localStorage.getItem('mimi_m');return v?JSON.parse(v):null;}catch(e){return null;}};
+const setMiembro=m=>{try{localStorage.setItem('mimi_m',JSON.stringify(m));}catch(e){}};
+
+// Hora local del dispositivo — el móvil ya está en zona horaria española
+// No usamos UTC ni conversiones, directamente new Date() con métodos locales
+function getMinsSpain(){
+  const d=new Date();
+  return d.getHours()*60+d.getMinutes();
+}
+function getDiaSpain(){
+  return new Date().getDay();
+}
+function todayKeySpain(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function getLocalDate(){ return new Date(); }
+const todayKey=todayKeySpain;
+const getDia=getDiaSpain;
+const dateKey=d=>{
+  if(typeof d==='string')return d;
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+};
+function voteKey(tipo){
+  // Comida SIEMPRE es para mañana (la votación es nocturna, el resultado es del día siguiente)
+  if(tipo==='comida'){
+    const t=new Date();t.setDate(t.getDate()+1);
+    return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+  }
+  return todayKey();
+}
+
+// ── FETCH INICIAL ──
+async function cargarDatos(){
+  showLoading(true);
+  // Mostrar app inmediatamente con datos por defecto, luego sincronizar
+  C.banco=JSON.parse(JSON.stringify(BANCO_INIT));
+  renderHoy();
+  try{
+    const hoy=todayKey();
+    const man=new Date();man.setDate(man.getDate()+1);
+    const manKey=man.toISOString().split('T')[0];
+    // Cargar banco y votos primero (más urgentes)
+    const rBanco=await api({action:'getBanco'});
+    if(rBanco.ok&&rBanco.data&&(rBanco.data.comida?.length||rBanco.data.cena?.length)){
+      C.banco=rBanco.data;
+    }
+    const [rVH,rVM]=await Promise.all([
+      api({action:'getVotos',fecha:hoy}),
+      api({action:'getVotos',fecha:manKey}),
+    ]);
+    if(rVH.ok)C.votos[hoy]=rVH.data||{};
+    if(rVM.ok)C.votos[manKey]=rVM.data||{};
+    renderHoy();
+    // Luego el resto en background
+    const [rHist,rAsig,rCompra,rCompraH]=await Promise.all([
+      api({action:'getHistorial'}),
+      api({action:'getAsignaciones'}),
+      api({action:'getCompra'}),
+      api({action:'getCompraHistorial'}),
+    ]);
+    if(rHist.ok)C.hist=rHist.data||[];
+    if(rAsig.ok)C.asig=rAsig.data||{};
+    if(rCompra.ok)C.compra.lista=rCompra.data||[];
+    if(rCompraH.ok)C.compra.historial=rCompraH.data||[];
+    renderHoy();
+  }catch(e){
+    console.error('Error cargando:',e);
+  }
+  showLoading(false);
+}
+
+function showLoading(v){
+  const el=document.getElementById('loading-overlay');
+  if(el)el.style.display=v?'flex':'none';
+}
+
+// Refresco en background cada 15 segundos cuando la app está activa
+setInterval(async()=>{
+  if(document.hidden)return;
+  if(recentAction())return; // no refrescar si el usuario acaba de hacer algo
+  const hoy=todayKey();
+  const man=new Date();man.setDate(man.getDate()+1);
+  const manKey=man.getFullYear()+'-'+String(man.getMonth()+1).padStart(2,'0')+'-'+String(man.getDate()).padStart(2,'0');
+  const [rVH,rVM,rComp,rAsig]=await Promise.all([
+    api({action:'getVotos',fecha:hoy}),
+    api({action:'getVotos',fecha:manKey}),
+    api({action:'getCompra'}),
+    api({action:'getAsignaciones'}),
+  ]);
+  if(rVH.ok)C.votos[hoy]=rVH.data||{};
+  if(rVM.ok)C.votos[manKey]=rVM.data||{};
+  if(rComp.ok)C.compra.lista=rComp.data||[];
+  if(rAsig.ok)C.asig=rAsig.data||{};
+  const sec=document.querySelector('.section.active')?.id;
+  if(sec==='sec-hoy')renderHoy();
+  if(sec==='sec-compra')renderCompra();
+  const pend=C.compra.lista.filter(i=>!i.done).length;
+  document.getElementById('nav-compra').classList.toggle('has-dot',pend>0);
+},15000);
+
+// ════════════════════════════════════════
+// ONBOARDING
+// ════════════════════════════════════════
+function elegir(name,emoji){
+  cM=name;cE=emoji;setMiembro({name,emoji});
+  document.getElementById('onboarding').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('who-av').textContent=emoji;
+  document.getElementById('who-name').textContent=name;
+  C.banco=JSON.parse(JSON.stringify(BANCO_INIT));
+  loadOptsFromSession(); // restaurar opciones del día si existen
+  renderHoy();
+  setTimeout(()=>sincronizarSheets(),100);
+}
+
+function sincronizarSheets(){
+  const hoy=todayKey();
+  const man=new Date();man.setDate(man.getDate()+1);
+  const manKey=man.toISOString().split('T')[0];
+  // Cargar todo en paralelo, cada uno independiente
+  api({action:'getBanco'}).then(r=>{
+    if(r.ok&&r.data&&(r.data.comida?.length||r.data.cena?.length)){
+      C.banco=r.data;renderHoy();
+    }
+  }).catch(()=>{});
+  api({action:'getVotos',fecha:hoy}).then(r=>{
+    if(r.ok){C.votos[hoy]=r.data||{};renderHoy();}
+  }).catch(()=>{});
+  api({action:'getVotos',fecha:manKey}).then(r=>{
+    if(r.ok)C.votos[manKey]=r.data||{};
+  }).catch(()=>{});
+  api({action:'getHistorial'}).then(r=>{
+    if(r.ok)C.hist=r.data||[];
+  }).catch(()=>{});
+  api({action:'getAsignaciones'}).then(r=>{
+    if(r.ok&&!recentAction()){C.asig=r.data||{};renderHoy();}
+  }).catch(()=>{});
+  api({action:'getCompra'}).then(r=>{
+    if(r.ok){C.compra.lista=r.data||[];
+      const pend=C.compra.lista.filter(i=>!i.done).length;
+      document.getElementById('nav-compra').classList.toggle('has-dot',pend>0);
+    }
+  }).catch(()=>{});
+  api({action:'getCompraHistorial'}).then(r=>{
+    if(r.ok)C.compra.historial=r.data||[];
+  }).catch(()=>{});
+}
+function cambiarMiembro(){
+  document.getElementById('onboarding').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+
+// ════════════════════════════════════════
+// SELECCIÓN 5 PLATOS
+// ════════════════════════════════════════
+// Platos exclusivos del jueves — no aparecen en rotación general
+const SOLO_JUEVES=['Cocido casero','Cocido Comidas Garres','Consomé Comidas Garres','Paella magra Comidas Garres'];
+
+function seleccionar(banco,tipo){
+  const hist=C.hist,ayer=getAyerGanador(tipo);
+  const asig=C.asig,hoyAsig=asig[voteKey(tipo)]?.[tipo];
+  // Excluir platos de jueves del banco general y el de ayer y el asignado hoy
+  const disp=banco.filter(p=>p.nombre!==ayer&&p.nombre!==hoyAsig&&!SOLO_JUEVES.includes(p.nombre));
+  function uv(nombre){for(let i=hist.length-1;i>=0;i--)if(hist[i][tipo]===nombre)return new Date(hist[i].fecha);return null;}
+  const cf=disp.map(p=>({...p,ultima:uv(p.nombre)}));
+  const nunca=cf.filter(p=>!p.ultima);
+  const vistos=cf.filter(p=>p.ultima).sort((a,b)=>a.ultima-b.ultima);
+  const ord=[...nunca,...vistos];
+  return[...ord.slice(0,2),...ord.slice(2).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5).slice(0,5);
+}
+function getAyerGanador(tipo){
+  const ayer=new Date();ayer.setDate(ayer.getDate()-1);
+  const e=C.hist.find(h=>h.fecha===ayer.toISOString().split('T')[0]);
+  return e?.[tipo]||null;
+}
+
+// ════════════════════════════════════════
+// VOTACIÓN
+// ════════════════════════════════════════
+function isOpen(tipo){
+  const m=getMinsSpain();
+  return tipo==='comida'?m>=1260&&m<1380:m>=1140&&m<1200;
+}
+
+let opts={comida:null,cena:null};
+let optsKey={comida:null,cena:null};
+
+// Cargar opciones guardadas de sessionStorage (persisten en F5 pero no al cerrar)
+function loadOptsFromSession(){
+  try{
+    const saved=sessionStorage.getItem('mimi_opts_'+todayKey());
+    if(saved){const s=JSON.parse(saved);opts=s.opts;optsKey=s.optsKey;}
+  }catch(e){}
+}
+function saveOptsToSession(){
+  try{sessionStorage.setItem('mimi_opts_'+todayKey(),JSON.stringify({opts,optsKey}));}catch(e){}
+}
+
+function getCounts(opciones,tipo){
+  const key=voteKey(tipo),dv=C.votos[key]?.[tipo]||{};
+  let c={};opciones.forEach(o=>{c[o.id]=0;});
+  Object.values(dv).forEach(vid=>{if(c[vid]!==undefined)c[vid]++;});
+  return c;
+}
+function getMiVoto(tipo){return C.votos[voteKey(tipo)]?.[tipo]?.[cM]||null;}
+function getWhoVoted(tipo){return Object.keys(C.votos[voteKey(tipo)]?.[tipo]||{});}
+function getWinner(opciones,tipo){
+  const counts=getCounts(opciones,tipo),max=Math.max(...Object.values(counts));
+  if(max===0)return null;
+  const winners=opciones.filter(o=>counts[o.id]===max);
+  if(winners.length===1)return winners[0].id;
+  const hist=C.hist;let oldest=null,oldestDate=new Date();
+  winners.forEach(op=>{
+    let last=null;
+    for(let i=hist.length-1;i>=0;i--)if(hist[i].comida===op.nombre||hist[i].cena===op.nombre){last=new Date(hist[i].fecha);break;}
+    if(!last||last<oldestDate){oldestDate=last||new Date(0);oldest=op.id;}
+  });
+  return oldest;
+}
+
+async function doVote(tipo,platoId){
+  const opciones=opts[tipo];if(!opciones)return;
+  if(!isOpen(tipo)){
+    const m=getMinsSpain();
+    if(m<(tipo==='comida'?1260:1140)){showToast(`Votación abre a las ${tipo==='comida'?'21:00':'19:00'}h`,'err');return;}
+    showToast('Votación cerrada','err');return;
+  }
+  const key=voteKey(tipo);
+  if(!C.votos[key])C.votos[key]={};
+  if(!C.votos[key][tipo])C.votos[key][tipo]={};
+  // Toggle
+  const prev=C.votos[key][tipo][cM];
+  if(prev===platoId){
+    delete C.votos[key][tipo][cM];
+    api({action:'setVoto',fecha:key,tipo,miembro:cM,platoId:''});
+  } else {
+    C.votos[key][tipo][cM]=platoId;
+    api({action:'setVoto',fecha:key,tipo,miembro:cM,platoId});markAction();
+  }
+  renderVoteBlock(tipo,opciones);renderVoters(tipo,opciones);
+  showToast('¡Voto registrado! ✓','ok');
+  autoSave(tipo,opciones);
+}
+
+async function autoSave(tipo,opciones){
+  const key=voteKey(tipo),dv=C.votos[key]?.[tipo]||{};
+  if(Object.keys(dv).length>=MEMBERS.length){
+    const winner=getWinner(opciones,tipo);if(!winner)return;
+    const plato=opciones.find(o=>o.id===winner);if(!plato)return;
+    const dia=DIAS[new Date(key+'T12:00:00').getDay()];
+    // Actualizar cache
+    let ex=C.hist.find(h=>h.fecha===key);
+    if(ex){ex[tipo]=plato.nombre;ex[tipo+'Src']='voted';}
+    else{const e={fecha:key,dia};e[tipo]=plato.nombre;e[tipo+'Src']='voted';C.hist.push(e);}
+    // Guardar en sheets
+    await api({action:'saveHistorial',fecha:key,dia,tipo,nombre:plato.nombre,src:'voted'});
+    renderTomorrowBanner();
+  }
+}
+
+// ════════════════════════════════════════
+// VOTERS ROW
+// ════════════════════════════════════════
+function renderVoters(tipo,opciones){
+  const el=document.getElementById('voters-'+tipo);
+  if(!opciones||!isOpen(tipo)){el.innerHTML='';return;}
+  const voted=getWhoVoted(tipo);
+  el.innerHTML='<div class="voters-row">'+MEMBERS.map(m=>{
+    const v=voted.includes(m.name);
+    return`<div class="voter-chip ${v?'voted':'pending'}">${m.emoji} ${m.name.split(' ')[0]} ${v?'✓':'·'}</div>`;
+  }).join('')+'</div>';
+}
+
+// ════════════════════════════════════════
+// BANNER MAÑANA
+// ════════════════════════════════════════
+function renderTomorrowBanner(){
+  const el=document.getElementById('tomorrow-banner');
+  const mins=getMinsSpain();
+  const tomorrow=getLocalDate();tomorrow.setDate(tomorrow.getDate()+1);
+  const tKey=tomorrow.toISOString().split('T')[0];
+  const plato=C.hist.find(h=>h.fecha===tKey)?.comida||C.asig[tKey]?.comida;
+  if(!plato||mins<1380){el.innerHTML='';return;}
+  const found=(C.banco||BANCO_INIT).comida.find(p=>p.nombre===plato);
+  const emoji=found?.emoji||C.asig[tKey]?.comidaEmoji||'🍽';
+  el.innerHTML=`<div class="tomorrow-banner"><div class="tb-emoji">${emoji}</div><div><div class="tb-label">👑 Mañana · ${DIAS[tomorrow.getDay()]}</div><div class="tb-name">${plato}</div></div></div>`;
+}
+
+// ════════════════════════════════════════
+// RENDER HOY
+// ════════════════════════════════════════
+// Muestra la comida de HOY (lo que se eligió/asignó ayer o esta mañana)
+function renderComidaHoy(dia){
+  const el=document.getElementById('comida-hoy-content');
+  if(!el)return;
+  const fijo=FIJOS[dia];
+  // Si es día fijo, mostrar el fijo
+  if(fijo?.comida?.skip){
+    el.innerHTML=`<div class="skip-card"><div class="fixed-emoji">🏡</div><div><div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Sin votación</div><div class="fixed-name">Casa de la abuela</div></div></div>`;
+    return;
+  }
+  if(fijo?.comida?.fixed){
+    el.innerHTML=`<div class="fixed-card"><div class="fixed-emoji">${fijo.comida.emoji}</div><div><div class="fixed-label">🔒 Plato fijo</div><div class="fixed-name">${fijo.comida.nombre}</div></div></div>`;
+    return;
+  }
+  // Buscar en historial o asignaciones de HOY (fecha de hoy, no mañana)
+  const key=todayKey();
+  const asig=C.asig;
+  const hist=C.hist;
+  // Excluir lo que venga de voteKey (mañana) — solo mostrar lo de hoy
+  const asignado=asig[key]?.comida;
+  const votado=hist.find(h=>h.fecha===key&&h.comidaSrc!=='future')?.comida;
+  const plato=asignado||votado;
+
+  if(plato){
+    const banco=C.banco||BANCO_INIT;
+    const found=banco.comida.find(p=>p.nombre===plato);
+    const emoji=found?.emoji||asig[key]?.comidaEmoji||'🍽';
+    const src=asignado?'Asignado':'Votado';
+    const color=asignado?'var(--orange)':'var(--accent)';
+    el.innerHTML=`<div class="fixed-card" style="border-color:${asignado?'rgba(234,88,12,.3)':'var(--am)'};">
+      <div class="fixed-emoji" style="background:${asignado?'rgba(234,88,12,.1)':'var(--al)'};">${emoji}</div>
+      <div><div class="fixed-label" style="color:${color};">${asignado?'✋':'👑'} ${src}</div><div class="fixed-name">${plato}</div></div>
+    </div>`;
+  } else {
+    el.innerHTML=`<div style="margin:0 20px 8px;background:var(--surface2);border-radius:18px;padding:16px 18px;border:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px;">Sin registrar aún</div>`;
+  }
+}
+
+function renderComida(dia){
+  const el=document.getElementById('comida-content'),btn=document.getElementById('btn-ac');
+  const mins_c=getMinsSpain();
+  // Comida siempre es para MAÑANA
+  const manana=new Date();manana.setDate(manana.getDate()+1);
+  const diaManana=manana.getDay();
+  const keyComida=voteKey('comida'); // siempre es fecha de mañana si >= 21:00, o hoy
+  const fijo=FIJOS[diaManana],asig=C.asig,asignado=asig[keyComida]?.comida;
+  btn.style.display=mins_c>=1260?'block':'none';
+  if(fijo?.comida?.skip){
+    btn.style.display='none';document.getElementById('voters-comida').innerHTML='';
+    el.innerHTML=`<div class="skip-card"><div class="fixed-emoji">🏡</div><div><div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Mañana · Sin votación</div><div class="fixed-name">Casa de la abuela</div></div></div>`;
+    return;
+  }
+  if(fijo?.comida?.fixed){
+    btn.style.display='none';document.getElementById('voters-comida').innerHTML='';
+    el.innerHTML=`<div class="fixed-card"><div class="fixed-emoji">${fijo.comida.emoji}</div><div><div class="fixed-label">🔒 Fijo mañana</div><div class="fixed-name">${fijo.comida.nombre}</div></div></div>`;
+    return;
+  }
+  if(asignado){
+    btn.style.display='none';document.getElementById('voters-comida').innerHTML='';
+    const emoji=asig[keyComida]?.comidaEmoji||'🍽';
+    el.innerHTML=`<div class="fixed-card" style="border-color:rgba(234,88,12,.3);"><div class="fixed-emoji" style="background:rgba(234,88,12,.1);">${emoji}</div><div style="flex:1;"><div class="fixed-label" style="color:var(--orange);">✋ Asignado para mañana</div><div class="fixed-name">${asignado}</div><button class="fixed-undo" onclick="deshacerAsig('comida')">Deshacer</button></div></div>`;
+    return;
+  }
+  const banco=C.banco||BANCO_INIT;
+  const hoyK=todayKey()+'-mañana';
+  if(!opts.comida||optsKey.comida!==hoyK){
+    opts.comida=diaManana===4?JUE_COMIDA:seleccionar(banco.comida,'comida');
+    optsKey.comida=hoyK;
+    saveOptsToSession();
+  }
+  renderVoters('comida',opts.comida);renderVoteBlock('comida',opts.comida);
+}
+
+function renderCena(dia){
+  const el=document.getElementById('cena-content'),btn=document.getElementById('btn-an');
+  const fijo=FIJOS[dia],asig=C.asig,asignado=asig[todayKey()]?.cena;
+  if(fijo?.cena?.fixed&&dia!==0){
+    btn.style.display='none';document.getElementById('voters-cena').innerHTML='';
+    el.innerHTML=`<div class="fixed-card"><div class="fixed-emoji">${fijo.cena.emoji}</div><div><div class="fixed-label">🔒 Plato fijo</div><div class="fixed-name">${fijo.cena.nombre}</div></div></div>`;
+    return;
+  }
+  if(asignado){
+    btn.style.display='none';document.getElementById('voters-cena').innerHTML='';
+    const emoji=asig[todayKey()]?.cenaEmoji||'🍽';
+    el.innerHTML=`<div class="fixed-card" style="border-color:rgba(234,88,12,.3);"><div class="fixed-emoji" style="background:rgba(234,88,12,.1);">${emoji}</div><div style="flex:1;"><div class="fixed-label" style="color:var(--orange);">✋ Asignado</div><div class="fixed-name">${asignado}</div><button class="fixed-undo" onclick="deshacerAsig('cena')">Deshacer</button></div></div>`;
+    return;
+  }
+  const mins_n=getMinsSpain();
+  btn.style.display=mins_n>=1140?'block':'none'; // solo mostrar asignar cuando es hora de votar
+  const banco=C.banco||BANCO_INIT;
+  const hoyKc=todayKey()+'-cena-'+dia;
+  if(!opts.cena||optsKey.cena!==hoyKc){
+    opts.cena=dia===0?DOM_CENA:seleccionar(banco.cena,'cena');
+    optsKey.cena=hoyKc;
+    saveOptsToSession();
+  }
+  renderVoters('cena',opts.cena);renderVoteBlock('cena',opts.cena);
+}
+
+function renderVoteBlock(tipo,opciones){
+  const el=document.getElementById(tipo+'-content');
+  const mins=getMinsSpain();
+  const start=tipo==='comida'?1260:1140,end=tipo==='comida'?1380:1200;
+
+  // ANTES DE LA HORA DE VOTACIÓN — solo mostrar cuándo abre, sin opciones
+  if(mins<start){
+    const horaStr=tipo==='comida'?'21:00 (noche)':'19:00';
+    el.innerHTML=`<div style="margin:0 20px 8px;background:var(--surface);border-radius:18px;padding:20px;border:1px solid var(--border);text-align:center;">
+      <div style="font-size:28px;margin-bottom:8px;">⏰</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Votación cerrada</div>
+      <div style="font-size:13px;color:var(--muted);">Abre a las <strong>${horaStr}h</strong></div>
+    </div>`;
+    return;
+  }
+
+  const open=isOpen(tipo),miVoto=getMiVoto(tipo);
+  const counts=getCounts(opciones,tipo),total=Object.values(counts).reduce((a,b)=>a+b,0);
+  const winner=getWinner(opciones,tipo);
+
+  // DESPUÉS DEL CIERRE — mostrar ganador o cerrada
+  if(!open){
+    if(winner){
+      const plato=opciones.find(o=>o.id===winner);
+      el.innerHTML=`<div style="margin:0 20px 8px;background:rgba(107,94,240,.06);border-radius:18px;padding:20px;border:2px solid var(--accent);text-align:center;">
+        <div style="font-size:28px;margin-bottom:6px;">👑</div>
+        <div style="font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Ganador · ${total} voto${total!==1?'s':''}</div>
+        <div style="font-size:18px;font-weight:700;">${plato?plato.emoji:''} ${plato?plato.nombre:'—'}</div>
+      </div>`;
+    } else {
+      el.innerHTML=`<div style="margin:0 20px 8px;background:var(--surface);border-radius:18px;padding:20px;border:1px solid var(--border);text-align:center;">
+        <div style="font-size:14px;font-weight:600;color:var(--muted);">🔒 Votación cerrada</div>
+        <div style="font-size:12px;color:var(--muted2);margin-top:4px;">Sin votos registrados</div>
+      </div>`;
+    }
+    return;
+  }
+
+  // DURANTE LA VOTACIÓN — mostrar opciones
+  let html=`<div style="padding:4px 20px 8px;font-size:12px;color:var(--green);">🟢 Abierta · cierra a las ${tipo==='comida'?'23:00':'20:00'}h · ${total} voto${total!==1?'s':''}</div>`;
+  opciones.forEach(op=>{
+    const cnt=counts[op.id]||0,pct=total>0?Math.round(cnt/total*100):0;
+    const isW=winner===op.id&&total>0,isMine=miVoto===op.id;
+    html+=`<div class="vote-card${isW?' winner':''}" onclick="doVote('${tipo}','${op.id}')">
+      ${isW?'<div class="crown">👑</div>':''}
+      <div class="vc-emoji">${op.emoji}</div>
+      <div class="vc-info"><div class="vc-name">${op.nombre}</div><div class="vc-meta">${cnt} voto${cnt!==1?'s':''} · ${pct}%</div><div class="vc-bar"><div class="vc-fill" style="width:${pct}%"></div></div></div>
+      <button class="vote-btn${isMine?' voted':''}" onclick="event.stopPropagation();doVote('${tipo}','${op.id}')">${isMine?'✓':'+'}</button>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderHoy(){
+  const dia=getDia(),mins=getMinsSpain(),now=getLocalDate();
+  document.getElementById('hoy-sub').textContent=now.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('dia-nombre').textContent=DIAS[dia];
+  document.getElementById('dia-fecha').textContent=now.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  const badge=document.getElementById('estado-badge');
+  if(isOpen('comida')){badge.textContent='🟢 Votando comida mañana';badge.className='badge badge-open';}
+  else if(isOpen('cena')){badge.textContent='🟢 Votando cena hoy';badge.className='badge badge-open';}
+  else if(mins<1140){badge.textContent='⏰ Cena vota a las 19:00';badge.className='badge badge-soon';}
+  else if(mins>=1200&&mins<1260){badge.textContent='⏰ Comida vota a las 21:00';badge.className='badge badge-soon';}
+  else{badge.textContent='🔒 Cerrada';badge.className='badge badge-closed';}
+  renderComidaHoy(dia);renderComida(dia);renderCena(dia);
+  const pend=C.compra.lista.filter(i=>!i.done).length;
+  document.getElementById('nav-compra').classList.toggle('has-dot',pend>0);
+}
+
+// ════════════════════════════════════════
+// ASIGNAR DIRECTO
+// ════════════════════════════════════════
+function openModal(tipo){
+  modalTipo=tipo;modalMode='assign';
+  const banco=C.banco||BANCO_INIT,opciones=tipo==='comida'?banco.comida:banco.cena;
+  document.getElementById('modal-title').textContent=tipo==='comida'?'🌞 Asignar comida':'🌙 Asignar cena';
+  document.getElementById('modal-search').value='';
+  document.getElementById('modal-extra').innerHTML='';
+  renderModalItems(opciones,'');
+  document.getElementById('modal-ov').classList.add('show');
+}
+
+function openCellModal(dateStr,tipo){
+  cellDate=dateStr;cellTipo=tipo;modalMode='plan';
+  const d=new Date(dateStr+'T12:00:00'),diaNum=d.getDay();
+  const banco=C.banco||BANCO_INIT;
+  const opciones=tipo==='comida'&&diaNum===4?JUE_COMIDA:tipo==='comida'?banco.comida:banco.cena;
+  document.getElementById('modal-title').textContent=`${tipo==='comida'?'🌞':'🌙'} ${DIAS[diaNum]} ${d.getDate()}/${d.getMonth()+1}`;
+  document.getElementById('modal-search').value='';
+  document.getElementById('modal-extra').innerHTML=`<button class="btn muted" style="margin-top:8px;" onclick="clearCellAsig()">Eliminar asignación</button>`;
+  renderModalItems(opciones,'');
+  document.getElementById('modal-ov').classList.add('show');
+}
+
+function renderModalItems(opciones,filtro){
+  const f=filtro?opciones.filter(o=>o.nombre.toLowerCase().includes(filtro.toLowerCase())):opciones;
+  document.getElementById('modal-items').innerHTML=f.map(op=>
+    `<div class="m-item" onclick="selectModalItem('${op.nombre.replace(/'/g,"\\'")}','${op.emoji}')">
+      <div class="m-item-em">${op.emoji}</div><div class="m-item-name">${op.nombre}</div>
+    </div>`
+  ).join('')||'<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">Sin resultados</div>';
+}
+
+function filterModal(){
+  const banco=C.banco||BANCO_INIT;
+  const tipo=modalMode==='assign'?modalTipo:cellTipo;
+  let opciones;
+  if(tipo==='comida'&&modalMode==='plan'&&cellDate){
+    const diaNum=new Date(cellDate+'T12:00:00').getDay();
+    opciones=diaNum===4?JUE_COMIDA:banco.comida;
+  } else opciones=tipo==='comida'?banco.comida:banco.cena;
+  renderModalItems(opciones,document.getElementById('modal-search').value);
+}
+
+function selectModalItem(nombre,emoji){
+  if(modalMode==='assign')asignarPlato(nombre,emoji);
+  else asignarCelda(nombre,emoji);
+}
+
+async function asignarPlato(nombre,emoji){
+  const key=todayKey();
+  if(!C.asig[key])C.asig[key]={};
+  C.asig[key][modalTipo]=nombre;C.asig[key][modalTipo+'Emoji']=emoji;
+  const dia=DIAS[getDia()];
+  let ex=C.hist.find(h=>h.fecha===key);
+  if(ex){ex[modalTipo]=nombre;ex[modalTipo+'Src']='assigned';}
+  else{const e={fecha:key,dia};e[modalTipo]=nombre;e[modalTipo+'Src']='assigned';C.hist.push(e);}
+  markAction();
+  await Promise.all([
+    api({action:'setAsignacion',fecha:key,tipo:modalTipo,nombre,emoji}),
+    api({action:'saveHistorial',fecha:key,dia,tipo:modalTipo,nombre,src:'assigned'}),
+  ]);
+  closeModal();renderHoy();
+  showToast(`${emoji} ${nombre} asignado ✓`,'ok');
+}
+
+async function asignarCelda(nombre,emoji){
+  if(!C.asig[cellDate])C.asig[cellDate]={};
+  C.asig[cellDate][cellTipo]=nombre;C.asig[cellDate][cellTipo+'Emoji']=emoji;
+  const dia=DIAS[new Date(cellDate+'T12:00:00').getDay()];
+  let ex=C.hist.find(h=>h.fecha===cellDate);
+  if(ex){ex[cellTipo]=nombre;ex[cellTipo+'Src']='assigned';}
+  else{const e={fecha:cellDate,dia};e[cellTipo]=nombre;e[cellTipo+'Src']='assigned';C.hist.push(e);}
+  markAction();
+  await Promise.all([
+    api({action:'setAsignacion',fecha:cellDate,tipo:cellTipo,nombre,emoji}),
+    api({action:'saveHistorial',fecha:cellDate,dia,tipo:cellTipo,nombre,src:'assigned'}),
+  ]);
+  closeModal();renderTabla();
+  showToast(`${emoji} ${nombre} planificado ✓`,'ok');
+}
+
+async function clearCellAsig(){
+  if(!cellDate||!cellTipo)return;
+  if(C.asig[cellDate]){delete C.asig[cellDate][cellTipo];delete C.asig[cellDate][cellTipo+'Emoji'];}
+  const ex=C.hist.find(h=>h.fecha===cellDate);
+  if(ex){delete ex[cellTipo];delete ex[cellTipo+'Src'];}
+  await Promise.all([
+    api({action:'deleteAsignacion',fecha:cellDate,tipo:cellTipo}),
+    api({action:'deleteHistorialEntry',fecha:cellDate,tipo:cellTipo}),
+  ]);
+  closeModal();renderTabla();showToast('Asignación eliminada');
+}
+
+async function deshacerAsig(tipo){
+  const key=todayKey();
+  if(C.asig[key]){delete C.asig[key][tipo];delete C.asig[key][tipo+'Emoji'];}
+  const ex=C.hist.find(h=>h.fecha===key);
+  if(ex){delete ex[tipo];delete ex[tipo+'Src'];}
+  await Promise.all([
+    api({action:'deleteAsignacion',fecha:key,tipo}),
+    api({action:'deleteHistorialEntry',fecha:key,tipo}),
+  ]);
+  renderHoy();showToast('Asignación eliminada');
+}
+
+function closeModal(){document.getElementById('modal-ov').classList.remove('show');}
+
+// ════════════════════════════════════════
+// HISTORIAL TABLA
+// ════════════════════════════════════════
+function getLunes(offset){
+  const hoy=getLocalDate(),dia=hoy.getDay(),diff=dia===0?-6:1-dia;
+  const l=new Date(hoy);l.setDate(hoy.getDate()+diff+(offset*7));l.setHours(12,0,0,0);return l;
+}
+function getSemanaDias(offset){
+  const l=getLunes(offset);
+  return Array.from({length:7},(_,i)=>{const d=new Date(l);d.setDate(l.getDate()+i);return d;});
+}
+function isToday(d){return dateKey(d)===todayKey();}
+function isPast(d){const h=getLocalDate();h.setHours(0,0,0,0);return d<h;}
+
+function getMealForDay(date,tipo){
+  const diaNum=date.getDay(),fijo=FIJOS[diaNum];
+  if(tipo==='comida'&&fijo?.comida?.fixed)return{nombre:fijo.comida.nombre,emoji:fijo.comida.emoji,src:'fixed',skip:!!fijo.comida.skip,nota:fijo.comida.nota};
+  if(tipo==='cena'&&fijo?.cena?.fixed)return{nombre:fijo.cena.nombre,emoji:fijo.cena.emoji,src:'fixed',nota:fijo.cena.nota};
+  const key=dateKey(date),asig=C.asig;
+  if(asig[key]?.[tipo])return{nombre:asig[key][tipo],emoji:asig[key][tipo+'Emoji']||'🍽',src:'assigned'};
+  const e=C.hist.find(h=>h.fecha===key);
+  if(e?.[tipo])return{nombre:e[tipo],src:e[tipo+'Src']||'voted'};
+  return null;
+}
+
+function renderTabla(){
+  const dias=getSemanaDias(offsetSem);
+  const o={day:'numeric',month:'short'};
+  document.getElementById('week-label').textContent=dias[0].toLocaleDateString('es-ES',o)+' – '+dias[6].toLocaleDateString('es-ES',o);
+  let html=`<thead><tr><th></th><th>🌞 Comida</th><th>🌙 Cena</th></tr></thead><tbody>`;
+  dias.forEach(date=>{
+    const diaNum=date.getDay(),hoy=isToday(date),pasado=isPast(date)&&!hoy;
+    const comida=getMealForDay(date,'comida'),cena=getMealForDay(date,'cena');
+    function cell(meal,tipo){
+      if(!meal){
+        if(pasado)return`<div class="mc ce"><div class="mc-name">Sin registrar</div></div>`;
+        return`<div class="mc ce" onclick="openCellModal('${dateKey(date)}','${tipo}')"><div class="mc-name">Toca para planificar</div></div>`;
+      }
+      if(meal.skip)return`<div class="mc cs"><div class="mc-name">🏡 Casa abuela</div></div>`;
+      const cls=meal.src==='fixed'?'cf':meal.src==='assigned'?'ca':'cv';
+      const tag=meal.src==='fixed'?(meal.nota||'Fijo'):meal.src==='assigned'?'Plan':'Votado';
+      const canEdit=meal.src!=='fixed'&&!pasado;
+      return`<div class="mc ${cls}"${canEdit?` onclick="openCellModal('${dateKey(date)}','${tipo}')"`:''}>${meal.emoji?`<div class="mc-em">${meal.emoji}</div>`:''}<div class="mc-name">${meal.nombre}</div><span class="mc-tag">${tag}</span></div>`;
+    }
+    html+=`<tr class="${hoy?'tr-hoy':''}"><td><div class="dc${hoy?' dhoy':''}"><div class="dn">${DIAS_S[diaNum]}</div><div class="dnum">${date.getDate()}/${date.getMonth()+1}</div>${hoy?'<div class="dhoy-lbl">HOY</div>':''}</div></td><td>${cell(comida,'comida')}</td><td>${cell(cena,'cena')}</td></tr>`;
+  });
+  html+='</tbody>';
+  document.getElementById('week-table').innerHTML=html;
+}
+function cambiarSemana(dir){offsetSem+=dir;renderTabla();}
+
+function renderHistLista(){
+  const hist=C.hist,el=document.getElementById('hv-lista');
+  if(!hist.length){el.innerHTML='<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">Sin historial aún.</div></div>';return;}
+  const sorted=[...hist].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+  el.innerHTML='<div style="padding-bottom:8px;">'+sorted.map(entry=>{
+    const d=new Date(entry.fecha+'T12:00:00');
+    return`<div class="hist-item"><div style="text-align:center;flex-shrink:0;width:36px;"><div class="hi-day">${DIAS_S[d.getDay()]}</div><div class="hi-num">${d.getDate()}/${d.getMonth()+1}</div></div><div class="hi-meals"><div class="hi-row"><span class="hi-tipo">Comida</span><span class="hi-name">${entry.comida||'—'}</span></div><div class="hi-div"></div><div class="hi-row"><span class="hi-tipo">Cena</span><span class="hi-name">${entry.cena||'—'}</span></div></div></div>`;
+  }).join('')+'</div>';
+}
+
+// ════════════════════════════════════════
+// ESTADÍSTICAS
+// ════════════════════════════════════════
+function renderStats(){
+  const hist=C.hist,el=document.getElementById('stats-content');
+  if(!hist.length){el.innerHTML='<div class="empty"><div class="empty-icon">📊</div><div class="empty-text">Sin datos aún.</div></div>';return;}
+  const counts={};
+  hist.forEach(entry=>{
+    const add=(nombre,tipo)=>{if(!nombre)return;const k=nombre+'__'+tipo;if(!counts[k])counts[k]={nombre,tipo,n:0};counts[k].n++;};
+    if(statFilter!=='cena')add(entry.comida,'comida');
+    if(statFilter!=='comida')add(entry.cena,'cena');
+  });
+  const sorted=Object.values(counts).sort((a,b)=>b.n-a.n);
+  if(!sorted.length){el.innerHTML='<div class="empty"><div class="empty-icon">📊</div><div class="empty-text">Sin datos para este filtro.</div></div>';return;}
+  const max=sorted[0].n,banco=C.banco||BANCO_INIT;
+  function getEmoji(nombre,tipo){return(tipo==='comida'?banco.comida:banco.cena).find(p=>p.nombre===nombre)?.emoji||'🍽';}
+  el.innerHTML=sorted.map((item,i)=>{
+    const pct=Math.round(item.n/max*100);
+    const rc=i===0?'gold':i===1?'silver':i===2?'bronze':'';
+    const rl=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}`;
+    return`<div class="stat-card"><div class="st-rank ${rc}">${rl}</div><div class="st-emoji">${getEmoji(item.nombre,item.tipo)}</div><div class="st-info"><div class="st-name">${item.nombre}</div><div class="st-tipo">${item.tipo==='comida'?'🌞 Comida':'🌙 Cena'}</div><div class="st-bar"><div class="st-bar-fill" style="width:${pct}%"></div></div></div><div class="st-count">${item.n}x</div></div>`;
+  }).join('');
+}
+function switchStat(f){
+  statFilter=f;
+  ['todo','comida','cena'].forEach(x=>document.getElementById('sf-'+x).className='sf-btn'+(f===x?' active':''));
+  renderStats();
+}
+
+function switchHist(v){
+  histView=v;
+  ['tabla','lista','stats'].forEach(x=>{
+    document.getElementById('ht-'+x).className='ht-btn'+(v===x?' active':'');
+    document.getElementById('hv-'+x).style.display=v===x?'block':'none';
+  });
+  if(v==='tabla')renderTabla();
+  else if(v==='lista')renderHistLista();
+  else renderStats();
+}
+function renderHistorial(){renderTabla();}
+
+// ════════════════════════════════════════
+// BANCO
+// ════════════════════════════════════════
+function renderBanco(){
+  const banco=C.banco||BANCO_INIT;
+  document.getElementById('banco-content').innerHTML=['comida','cena'].map(tipo=>
+    `<div class="bcat">${tipo==='comida'?'🌞 Comida':'🌙 Cena'}</div>`+
+    banco[tipo].map(p=>`<div class="bank-item"><div class="bi-em">${p.emoji}</div><div class="bi-name">${p.nombre}</div><button class="bi-del" onclick="delPlato('${tipo}','${p.id}')">✕</button></div>`).join('')
+  ).join('');
+}
+
+async function addPlato(){
+  const name=document.getElementById('new-nombre').value.trim();
+  const tipo=document.getElementById('new-tipo').value;
+  const emoji=document.getElementById('new-emoji').value.trim()||'🍽';
+  if(!name){showToast('Escribe el nombre','err');return;}
+  if(!C.banco)C.banco=JSON.parse(JSON.stringify(BANCO_INIT));
+  const ts=Date.now();
+  if(tipo==='ambos'){
+    const id1='c'+ts,id2='n'+ts;
+    C.banco.comida.push({id:id1,nombre:name,emoji});
+    C.banco.cena.push({id:id2,nombre:name,emoji});
+    await Promise.all([
+      api({action:'addPlato',tipo:'comida',id:id1,nombre:name,emoji}),
+      api({action:'addPlato',tipo:'cena',id:id2,nombre:name,emoji}),
+    ]);
+  } else {
+    const id=tipo[0]+ts;
+    C.banco[tipo].push({id,nombre:name,emoji});
+    await api({action:'addPlato',tipo,id,nombre:name,emoji});
+  }
+  document.getElementById('new-nombre').value='';document.getElementById('new-emoji').value='';
+  renderBanco();showToast('Plato añadido ✓','ok');
+}
+
+async function delPlato(tipo,id){
+  if(!C.banco)return;
+  C.banco[tipo]=C.banco[tipo].filter(p=>p.id!==id);
+  await api({action:'deletePlato',tipo,id});
+  renderBanco();showToast('Plato eliminado');
+}
+
+async function resetBanco(){
+  C.banco=JSON.parse(JSON.stringify(BANCO_INIT));
+  await api({action:'resetBanco'});
+  renderBanco();showToast('Banco reseteado','ok');
+}
+
+// ════════════════════════════════════════
+// COMPRA
+// ════════════════════════════════════════
+function renderCompra(){
+  const data=C.compra;
+  const el=document.getElementById('compra-lista');
+  const activos=data.lista.filter(i=>!i.done),hechos=data.lista.filter(i=>i.done);
+  document.getElementById('compra-sub').textContent=activos.length>0?`${activos.length} pendiente${activos.length!==1?'s':''}`:data.lista.length===0?'Lista vacía':'Todo en el carrito';
+  document.getElementById('nav-compra').classList.toggle('has-dot',activos.length>0);
+  if(!data.lista.length){
+    el.innerHTML='<div class="empty"><div class="empty-icon">🛒</div><div class="empty-text">La lista está vacía.<br>Añade lo que necesitáis.</div></div>';
+  } else {
+    let h='';
+    if(activos.length){h+='<div class="csec">📋 Pendiente</div>';activos.forEach(i=>{h+=`<div class="compra-item" onclick="toggleCompra('${i.id}')"><div class="ccheck"> </div><div class="cname">${i.nombre}</div><div class="cwho">${i.emoji||''} ${i.quien}</div></div>`;});}
+    if(hechos.length){h+='<div class="csec">✅ En el carrito</div>';hechos.forEach(i=>{h+=`<div class="compra-item done" onclick="toggleCompra('${i.id}')"><div class="ccheck">✓</div><div class="cname">${i.nombre}</div><div class="cwho">${i.emoji||''} ${i.quien}</div></div>`;});}
+    el.innerHTML=h;
+  }
+  const noEnLista=data.historial.filter(h=>!data.lista.find(l=>l.nombre.toLowerCase()===h.toLowerCase()));
+  const histSec=document.getElementById('compra-hist-sec');
+  histSec.style.display=noEnLista.length?'block':'none';
+  document.getElementById('compra-hist').innerHTML=noEnLista.map(n=>`<div class="hp-item" onclick="addDesdeHist('${n}')"><div class="hp-name">${n}</div><div class="hp-add">+</div></div>`).join('');
+}
+
+async function addCompra(){
+  const input=document.getElementById('compra-input'),nombre=input.value.trim();if(!nombre)return;
+  const id='p'+Date.now();
+  C.compra.lista.push({id,nombre,quien:cM,emoji:cE,done:false});
+  if(!C.compra.historial.find(h=>h.toLowerCase()===nombre.toLowerCase())){
+    C.compra.historial.push(nombre);
+    api({action:'addCompraHistorial',nombre});
+  }
+  markAction();await api({action:'addCompra',nombre,quien:cM,emoji:cE});
+  input.value='';renderCompra();showToast('Añadido ✓','ok');
+}
+
+async function addDesdeHist(nombre){
+  if(C.compra.lista.find(l=>l.nombre===nombre&&!l.done)){showToast('Ya está en la lista','err');return;}
+  const id='p'+Date.now();
+  C.compra.lista.push({id,nombre,quien:cM,emoji:cE,done:false});
+  await api({action:'addCompra',nombre,quien:cM,emoji:cE});
+  renderCompra();showToast('Añadido ✓','ok');
+}
+
+async function toggleCompra(id){
+  const item=C.compra.lista.find(i=>i.id===id);if(!item)return;
+  item.done=!item.done;
+  markAction();await api({action:'toggleCompra',id});
+  if(C.compra.lista.length&&C.compra.lista.every(i=>i.done)){
+    setTimeout(async()=>{
+      C.compra.lista=[];
+      await api({action:'clearCompraCompleta'});
+      renderCompra();showToast('¡Compra completada! 🎉','ok');
+    },900);
+  } else renderCompra();
+}
+
+// ════════════════════════════════════════
+// NAV
+// ════════════════════════════════════════
+function showSec(name){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  const nb=document.getElementById('nav-'+name);if(nb)nb.classList.add('active');
+  if(name==='hoy')renderHoy();
+  if(name==='historial'){
+    // Refrescar historial y asignaciones al abrir semana
+    Promise.all([fetchHist(),fetchAsig()]).then(()=>renderHistorial());
+    renderHistorial();
+  }
+  if(name==='banco')renderBanco();
+  if(name==='compra'){fetchCompra().then(()=>renderCompra());renderCompra();}
+}
+
+async function fetchHist(){const r=await api({action:'getHistorial'});if(r.ok)C.hist=r.data||[];return C.hist;}
+async function fetchAsig(){const r=await api({action:'getAsignaciones'});if(r.ok)C.asig=r.data||{};return C.asig;}
+async function fetchCompra(){
+  const[r1,r2]=await Promise.all([api({action:'getCompra'}),api({action:'getCompraHistorial'})]);
+  if(r1.ok)C.compra.lista=r1.data||[];
+  if(r2.ok)C.compra.historial=r2.data||[];
+  return C.compra;
+}
+
+async function clearHoy(){
+  const key=todayKey();
+  // Borrar votos
+  if(C.votos[key])C.votos[key]={};
+  // Borrar asignaciones
+  if(C.asig[key])delete C.asig[key];
+  // Borrar historial del día
+  const idx=C.hist.findIndex(h=>h.fecha===key);if(idx>-1)C.hist.splice(idx,1);
+  await Promise.all([
+    api({action:'clearVotos',fecha:key}),
+    api({action:'deleteAsignacion',fecha:key,tipo:'comida'}),
+    api({action:'deleteAsignacion',fecha:key,tipo:'cena'}),
+    api({action:'deleteHistorialEntry',fecha:key,tipo:'comida'}),
+    api({action:'deleteHistorialEntry',fecha:key,tipo:'cena'}),
+  ]);
+  renderHoy();showToast('Borrado todo de hoy','ok');
+}
+
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';
+  setTimeout(()=>t.className='toast '+type,2800);
+}
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+const saved=getMiembro();
+if(saved){
+  cM=saved.name;cE=saved.emoji;
+  document.getElementById('onboarding').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('who-av').textContent=cE;
+  document.getElementById('who-name').textContent=cM;
+  C.banco=JSON.parse(JSON.stringify(BANCO_INIT));
+  loadOptsFromSession(); // restaurar opciones del día al recargar
+  renderHoy();
+  setTimeout(()=>sincronizarSheets(),100);
+}
+</script>
+</body>
+</html>
